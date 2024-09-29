@@ -25,6 +25,18 @@ def delete_task(task_id):
         tasks.pop(task_id)
     return redirect(url_for('index'))
 
+# Route to edit a task
+@app.route('/edit/<int:task_id>', methods=['GET', 'POST'])
+def edit_task(task_id):
+    if request.method == 'POST':
+        updated_task = request.form.get('task')
+        if updated_task:
+            tasks[task_id] = updated_task
+        return redirect(url_for('index'))
+    else:
+        task_to_edit = tasks[task_id]
+        return render_template('edit.html', task=task_to_edit, task_id=task_id)
+
 # Run the app
 if __name__ == '__main__':
     app.run(debug=True)
